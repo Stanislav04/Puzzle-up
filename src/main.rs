@@ -1,5 +1,9 @@
 use bevy::prelude::*;
+use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
+
+const MAP_WIDTH: f32 = 608.0;
+const MAP_HEIGHT: f32 = 272.0;
 
 fn main() {
     App::new()
@@ -9,6 +13,8 @@ fn main() {
             gravity: Vec2::new(0.0, -50.0),
             ..Default::default()
         })
+        .add_plugin(LdtkPlugin)
+        .insert_resource(LevelSelection::Index(0))
         .add_startup_system(setup_system)
         .add_system(player_movement_system)
         .run();
@@ -24,6 +30,7 @@ fn setup_system(mut commands: Commands, asset_server: ResMut<AssetServer>) {
         .spawn_bundle(SpriteBundle {
             texture: asset_server.load("Kenney/PNG/Player/Poses/player_idle.png"),
             transform: Transform {
+                translation: Vec3::new(0.0, 0.0, 10.0),
                 scale: Vec3::new(0.5, 0.5, 1.0),
                 ..Default::default()
             },
@@ -34,6 +41,12 @@ fn setup_system(mut commands: Commands, asset_server: ResMut<AssetServer>) {
         .insert(RigidBody::Dynamic)
         .insert(Collider::cuboid(30.0, 55.0))
         .insert(LockedAxes::ROTATION_LOCKED);
+
+    commands.spawn_bundle(LdtkWorldBundle {
+        ldtk_handle: asset_server.load("map.ldtk"),
+        transform: Transform::from_xyz(-MAP_WIDTH / 2.0, -MAP_HEIGHT / 2.0, 0.0),
+        ..default()
+    });
 }
 
 fn player_movement_system(
