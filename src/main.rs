@@ -54,24 +54,38 @@ fn setup_system(mut commands: Commands, asset_server: ResMut<AssetServer>) {
 
 fn player_movement_system(
     keyboard_input: Res<Input<KeyCode>>,
-    mut player_info: Query<&mut Velocity, With<Player>>,
+    rapier_context: Res<RapierContext>,
+    mut player_info: Query<(Entity, &mut Velocity), With<Player>>,
+    tile_info: Query<Entity, With<Ground>>,
 ) {
-    for mut velocity in &mut player_info {
+    for (player, mut velocity) in &mut player_info {
         let up = keyboard_input.any_pressed([KeyCode::Up, KeyCode::W]);
-        let down = keyboard_input.any_pressed([KeyCode::Down, KeyCode::S]);
         let left = keyboard_input.any_pressed([KeyCode::Left, KeyCode::A]);
         let right = keyboard_input.any_pressed([KeyCode::Right, KeyCode::D]);
 
         velocity.linvel.x += -(left as i8 as f32) + right as i8 as f32;
-        velocity.linvel.y += -(down as i8 as f32) + up as i8 as f32;
+
+        if up {
+            for tile in tile_info.iter() {
+                if let Some(contact_pair) = rapier_context.contact_pair(player, tile) {
+                    for manifold in contact_pair.manifolds() {
+                        if manifold.normal().y == -1.0 {
+                            velocity.linvel.y += (up as i8 as f32) * 100.0;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
-#[derive(Default, Bundle, LdtkEntity)]
+#[derive(Default, Bundle, LdtkEntity, Component)]
 struct GroundTile {
     #[from_entity_instance]
     #[bundle]
     collider_bundle: ColliderBundle,
+    ground: Ground,
 }
 
 #[derive(Default, Bundle, LdtkEntity)]
@@ -80,6 +94,9 @@ struct LevelBorder {
     #[bundle]
     collider_bundle: ColliderBundle,
 }
+
+#[derive(Default, Component)]
+struct Ground;
 
 #[derive(Default, Bundle)]
 struct ColliderBundle {
