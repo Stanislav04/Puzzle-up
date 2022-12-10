@@ -19,6 +19,7 @@ fn main() {
         .add_startup_system(setup_system)
         .add_system(player_movement_system)
         .register_ldtk_entity::<GroundTile>("Ground")
+        .register_ldtk_entity::<GroundTile>("LevelBorder")
         .run();
 }
 
@@ -66,24 +67,38 @@ fn player_movement_system(
     }
 }
 
-#[derive(Bundle, LdtkEntity)]
+#[derive(Default, Bundle, LdtkEntity)]
 struct GroundTile {
     #[from_entity_instance]
     #[bundle]
     collider_bundle: ColliderBundle,
 }
 
-#[derive(Bundle)]
+#[derive(Default, Bundle, LdtkEntity)]
+struct LevelBorder {
+    #[from_entity_instance]
+    #[bundle]
+    collider_bundle: ColliderBundle,
+}
+
+#[derive(Default, Bundle)]
 struct ColliderBundle {
     collider: Collider,
     rigid_body: RigidBody,
 }
 
 impl From<EntityInstance> for ColliderBundle {
-    fn from(_: EntityInstance) -> Self {
-        Self {
-            collider: Collider::cuboid(TILE_SIZE / 2.0, TILE_SIZE / 2.0),
-            rigid_body: RigidBody::Fixed,
+    fn from(entity_instance: EntityInstance) -> Self {
+        match entity_instance.identifier.as_ref() {
+            "Ground" => Self {
+                collider: Collider::cuboid(TILE_SIZE / 2.0, TILE_SIZE / 2.0),
+                rigid_body: RigidBody::Fixed,
+            },
+            "LevelBorder" => Self {
+                collider: Collider::cuboid(TILE_SIZE / 2.0, TILE_SIZE / 2.0),
+                rigid_body: RigidBody::Fixed,
+            },
+            _ => Self::default(),
         }
     }
 }
