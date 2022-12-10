@@ -2,6 +2,7 @@ use bevy::prelude::*;
 use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
 
+const TILE_SIZE: f32 = 16.0;
 const MAP_WIDTH: f32 = 608.0;
 const MAP_HEIGHT: f32 = 272.0;
 
@@ -17,6 +18,7 @@ fn main() {
         .insert_resource(LevelSelection::Index(0))
         .add_startup_system(setup_system)
         .add_system(player_movement_system)
+        .register_ldtk_entity::<GroundTile>("Ground")
         .run();
 }
 
@@ -61,5 +63,27 @@ fn player_movement_system(
 
         velocity.linvel.x += -(left as i8 as f32) + right as i8 as f32;
         velocity.linvel.y += -(down as i8 as f32) + up as i8 as f32;
+    }
+}
+
+#[derive(Bundle, LdtkEntity)]
+struct GroundTile {
+    #[from_entity_instance]
+    #[bundle]
+    collider_bundle: ColliderBundle,
+}
+
+#[derive(Bundle)]
+struct ColliderBundle {
+    collider: Collider,
+    rigid_body: RigidBody,
+}
+
+impl From<EntityInstance> for ColliderBundle {
+    fn from(_: EntityInstance) -> Self {
+        Self {
+            collider: Collider::cuboid(TILE_SIZE / 2.0, TILE_SIZE / 2.0),
+            rigid_body: RigidBody::Fixed,
+        }
     }
 }
