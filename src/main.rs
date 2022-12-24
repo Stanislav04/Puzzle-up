@@ -6,9 +6,17 @@ const TILE_SIZE: f32 = 16.0;
 const MAP_WIDTH: f32 = 608.0;
 const MAP_HEIGHT: f32 = 272.0;
 
+#[derive(Clone, Debug, Eq, PartialEq, Hash)]
+enum GameState {
+    MapExploring,
+    RiddleSolving,
+    LevelLoading,
+}
+
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
+        .add_state(GameState::MapExploring)
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
         .insert_resource(RapierConfiguration {
             gravity: Vec2::new(0.0, -50.0),
@@ -16,8 +24,10 @@ fn main() {
         })
         .add_plugin(LdtkPlugin)
         .insert_resource(LevelSelection::Index(0))
+        .add_system_set(
+            SystemSet::on_update(GameState::MapExploring).with_system(player_movement_system),
+        )
         .add_startup_system(setup_system)
-        .add_system(player_movement_system)
         .register_ldtk_entity::<GroundTile>("Ground")
         .register_ldtk_entity::<GroundTile>("LevelBorder")
         .run();
