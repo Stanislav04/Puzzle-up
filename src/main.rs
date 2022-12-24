@@ -1,8 +1,9 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, utils::HashMap};
 use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 const TILE_SIZE: f32 = 16.0;
+const DOOR_SIZE: f32 = 64.0;
 const MAP_WIDTH: f32 = 608.0;
 const MAP_HEIGHT: f32 = 272.0;
 
@@ -18,6 +19,7 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_state(GameState::MapExploring)
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
+        .add_plugin(RapierDebugRenderPlugin::default())
         .insert_resource(RapierConfiguration {
             gravity: Vec2::new(0.0, -50.0),
             ..Default::default()
@@ -30,6 +32,7 @@ fn main() {
         .add_startup_system(setup_system)
         .register_ldtk_entity::<GroundTile>("Ground")
         .register_ldtk_entity::<GroundTile>("LevelBorder")
+        .register_ldtk_entity::<Door>("Door")
         .run();
 }
 
@@ -125,7 +128,54 @@ impl From<EntityInstance> for ColliderBundle {
                 collider: Collider::cuboid(TILE_SIZE / 2.0, TILE_SIZE / 2.0),
                 rigid_body: RigidBody::Fixed,
             },
+            "Door" => Self {
+                collider: Collider::cuboid(DOOR_SIZE / 2.0, DOOR_SIZE / 2.0),
+                rigid_body: RigidBody::Fixed,
+            },
             _ => Self::default(),
+        }
+    }
+}
+
+#[derive(Default, Bundle, LdtkEntity, Component)]
+struct Door {
+    #[sprite_sheet_bundle]
+    #[bundle]
+    sprite_sheet_bundle: SpriteSheetBundle,
+    #[from_entity_instance]
+    #[bundle]
+    collider_bundle: ColliderBundle,
+    sensor: Sensor,
+    #[from_entity_instance]
+    riddle_info: RiddleInfo,
+}
+
+#[derive(Default, Component)]
+struct RiddleInfo {
+    question: String,
+    answer: String,
+}
+
+impl From<EntityInstance> for RiddleInfo {
+    fn from(entity_instance: EntityInstance) -> Self {
+        let fields = HashMap::from_iter(entity_instance.field_instances.iter().map(|field| {
+            (
+                field.identifier.clone(),
+                match field.value.clone() {
+                    FieldValue::String(Some(value)) => value,
+                    _ => "".to_string(),
+                },
+            )
+        }));
+        Self {
+            question: fields
+                .get("question")
+                .expect("A question is required for a riddle!")
+                .clone(),
+            answer: fields
+                .get("answer")
+                .expect("An answer is required for a riddle!")
+                .clone(),
         }
     }
 }
