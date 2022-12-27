@@ -176,7 +176,7 @@
 					"identifier": "question",
 					"__type": "String",
 					"uid": 9,
-					"type": "F_String",
+					"type": "F_Text",
 					"isArray": false,
 					"canBeNull": true,
 					"arrayMinLength": null,
@@ -433,8 +433,14 @@
 							"defUid": 8,
 							"px": [80,144],
 							"fieldInstances": [
-								{ "__identifier": "question", "__value": "\"\"", "__type": "String", "__tile": null, "defUid": 9, "realEditorValues": [] },
-								{ "__identifier": "answer", "__value": "000", "__type": "String", "__tile": null, "defUid": 10, "realEditorValues": [] },
+								{ "__identifier": "question", "__value": "How many days does every year have?", "__type": "String", "__tile": null, "defUid": 9, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["How many days does every year have?"]
+								}] },
+								{ "__identifier": "answer", "__value": "365", "__type": "String", "__tile": null, "defUid": 10, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["365"]
+								}] },
 								{ "__identifier": "color", "__value": "BLUE", "__type": "LocalEnum.DoorColor", "__tile": { "tilesetUid": 12, "x": 384, "y": 320, "w": 64, "h": 64 }, "defUid": 13, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["BLUE"]
@@ -454,8 +460,14 @@
 							"defUid": 8,
 							"px": [464,144],
 							"fieldInstances": [
-								{ "__identifier": "question", "__value": "\"\"", "__type": "String", "__tile": null, "defUid": 9, "realEditorValues": [] },
-								{ "__identifier": "answer", "__value": "000", "__type": "String", "__tile": null, "defUid": 10, "realEditorValues": [] },
+								{ "__identifier": "question", "__value": "How many seconds does an hour contain?", "__type": "String", "__tile": null, "defUid": 9, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["How many seconds does an hour contain?"]
+								}] },
+								{ "__identifier": "answer", "__value": "360", "__type": "String", "__tile": null, "defUid": 10, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["360"]
+								}] },
 								{ "__identifier": "color", "__value": "YELLOW", "__type": "LocalEnum.DoorColor", "__tile": { "tilesetUid": 12, "x": 448, "y": 320, "w": 64, "h": 64 }, "defUid": 13, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["YELLOW"]

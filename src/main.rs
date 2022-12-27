@@ -17,19 +17,24 @@ enum GameState {
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_state(GameState::MapExploring)
+        .add_state(GameState::LevelLoading)
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
-        .add_plugin(RapierDebugRenderPlugin::default())
         .insert_resource(RapierConfiguration {
             gravity: Vec2::new(0.0, -50.0),
             ..Default::default()
         })
         .add_plugin(LdtkPlugin)
         .insert_resource(LevelSelection::Index(0))
+        .add_startup_system(setup_system)
         .add_system_set(
             SystemSet::on_update(GameState::MapExploring).with_system(player_movement_system),
         )
-        .add_startup_system(setup_system)
+        .add_system_set(
+            SystemSet::on_update(GameState::LevelLoading).with_system(level_loaded_system),
+        )
+        .add_system_set(
+            SystemSet::on_exit(GameState::LevelLoading).with_system(init_riddles_system),
+        )
         .register_ldtk_entity::<GroundTile>("Ground")
         .register_ldtk_entity::<GroundTile>("LevelBorder")
         .register_ldtk_entity::<Door>("Door")
@@ -71,21 +76,20 @@ fn player_movement_system(
     mut player_info: Query<(Entity, &mut Velocity), With<Player>>,
     tile_info: Query<Entity, With<Ground>>,
 ) {
-    for (player, mut velocity) in &mut player_info {
-        let up = keyboard_input.any_pressed([KeyCode::Up, KeyCode::W]);
-        let left = keyboard_input.any_pressed([KeyCode::Left, KeyCode::A]);
-        let right = keyboard_input.any_pressed([KeyCode::Right, KeyCode::D]);
+    let (player, mut velocity) = player_info.single_mut();
+    let up = keyboard_input.any_pressed([KeyCode::Up, KeyCode::W]);
+    let left = keyboard_input.any_pressed([KeyCode::Left, KeyCode::A]);
+    let right = keyboard_input.any_pressed([KeyCode::Right, KeyCode::D]);
 
-        velocity.linvel.x += -(left as i8 as f32) + right as i8 as f32;
+    velocity.linvel.x += -(left as i8 as f32) + right as i8 as f32;
 
-        if up {
-            for tile in tile_info.iter() {
-                if let Some(contact_pair) = rapier_context.contact_pair(player, tile) {
-                    for manifold in contact_pair.manifolds() {
-                        if manifold.normal().y == -1.0 {
-                            velocity.linvel.y += (up as i8 as f32) * 100.0;
-                            break;
-                        }
+    if up {
+        for tile in tile_info.iter() {
+            if let Some(contact_pair) = rapier_context.contact_pair(player, tile) {
+                for manifold in contact_pair.manifolds() {
+                    if manifold.normal().y == -1.0 {
+                        velocity.linvel.y += (up as i8 as f32) * 100.0;
+                        break;
                     }
                 }
             }
@@ -154,6 +158,7 @@ struct Door {
 struct RiddleInfo {
     question: String,
     answer: String,
+    riddle: Option<Entity>,
 }
 
 impl From<EntityInstance> for RiddleInfo {
@@ -176,6 +181,94 @@ impl From<EntityInstance> for RiddleInfo {
                 .get("answer")
                 .expect("An answer is required for a riddle!")
                 .clone(),
+            ..Default::default()
         }
+    }
+}
+
+fn root_node() -> NodeBundle {
+    NodeBundle {
+        style: Style {
+            display: Display::None,
+            flex_direction: FlexDirection::ColumnReverse,
+            justify_content: JustifyContent::SpaceAround,
+            align_items: AlignItems::Center,
+            size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
+            ..Default::default()
+        },
+        color: UiColor::from(Color::rgb(0.5, 0.5, 0.85)),
+        visibility: Visibility { is_visible: false },
+        ..Default::default()
+    }
+}
+
+fn question_text(asset_server: &Res<AssetServer>, question: &String) -> TextBundle {
+    TextBundle {
+        text: Text::from_section(
+            question,
+            TextStyle {
+                font: asset_server.load("MontserratAlternates-MediumItalic.ttf"),
+                font_size: 60.0,
+                color: Color::WHITE,
+            },
+        )
+        .with_alignment(TextAlignment::CENTER),
+        ..Default::default()
+    }
+}
+
+fn answer_container() -> NodeBundle {
+    NodeBundle {
+        color: UiColor::from(Color::NONE),
+        style: Style {
+            justify_content: JustifyContent::SpaceAround,
+            min_size: Size::new(Val::Percent(30.0), Val::Auto),
+            ..Default::default()
+        },
+        ..Default::default()
+    }
+}
+
+fn answer_position(asset_server: &Res<AssetServer>, color: Color) -> TextBundle {
+    TextBundle {
+        text: Text::from_section(
+            "_".to_string(),
+            TextStyle {
+                font: asset_server.load("MontserratAlternates-MediumItalic.ttf"),
+                font_size: 60.0,
+                color,
+            },
+        ),
+        ..Default::default()
+    }
+}
+
+fn level_loaded_system(mut state: ResMut<State<GameState>>, doors: Query<&RiddleInfo>) {
+    if doors.iter().count() == 2 {
+        state.set(GameState::MapExploring).unwrap();
+    }
+}
+
+fn init_riddles_system(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    mut doors: Query<&mut RiddleInfo>,
+) {
+    for mut door in doors.iter_mut() {
+        door.riddle = Some(
+            commands
+                .spawn_bundle(root_node())
+                .with_children(|parent| {
+                    parent.spawn_bundle(question_text(&asset_server, &door.question));
+                    parent
+                        .spawn_bundle(answer_container())
+                        .with_children(|parent| {
+                            parent.spawn_bundle(answer_position(&asset_server, Color::RED));
+                            parent.spawn_bundle(answer_position(&asset_server, Color::BLUE));
+                            parent.spawn_bundle(answer_position(&asset_server, Color::YELLOW));
+                        });
+                })
+                .id(),
+        );
     }
 }
