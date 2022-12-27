@@ -27,7 +27,12 @@ fn main() {
         .insert_resource(LevelSelection::Index(0))
         .add_startup_system(setup_system)
         .add_system_set(
-            SystemSet::on_update(GameState::MapExploring).with_system(player_movement_system),
+            SystemSet::on_update(GameState::MapExploring)
+                .with_system(player_movement_system)
+                .with_system(touch_door_system),
+        )
+        .add_system_set(
+            SystemSet::on_update(GameState::RiddleSolving).with_system(answering_riddle_system),
         )
         .add_system_set(
             SystemSet::on_update(GameState::LevelLoading).with_system(level_loaded_system),
@@ -161,6 +166,9 @@ struct RiddleInfo {
     riddle: Option<Entity>,
 }
 
+#[derive(Component)]
+struct RiddleNode;
+
 impl From<EntityInstance> for RiddleInfo {
     fn from(entity_instance: EntityInstance) -> Self {
         let fields = HashMap::from_iter(entity_instance.field_instances.iter().map(|field| {
@@ -258,6 +266,7 @@ fn init_riddles_system(
         door.riddle = Some(
             commands
                 .spawn_bundle(root_node())
+                .insert(RiddleNode)
                 .with_children(|parent| {
                     parent.spawn_bundle(question_text(&asset_server, &door.question));
                     parent
@@ -270,5 +279,29 @@ fn init_riddles_system(
                 })
                 .id(),
         );
+    }
+}
+
+fn touch_door_system(
+    keyboard_input: Res<Input<KeyCode>>,
+    rapier_context: Res<RapierContext>,
+    mut state: ResMut<State<GameState>>,
+    player_info: Query<Entity, With<Player>>,
+    doors: Query<(Entity, &RiddleInfo)>,
+    mut riddle_nodes: Query<(&mut Style, &mut Visibility), With<RiddleNode>>,
+) {
+    let player = player_info.single();
+    if keyboard_input.just_pressed(KeyCode::Space) {
+        for (door, riddle_info) in doors.iter() {
+            if let Some(contact_pair) = rapier_context.intersection_pair(player, door) {
+                if contact_pair {
+                    let (mut node_style, mut node_visibility) =
+                        riddle_nodes.get_mut(riddle_info.riddle.unwrap()).unwrap();
+                    node_style.display = Display::Flex;
+                    node_visibility.is_visible = true;
+                    state.set(GameState::RiddleSolving).unwrap();
+                }
+            }
+        }
     }
 }
