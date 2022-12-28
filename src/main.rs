@@ -1,4 +1,7 @@
-use bevy::{prelude::*, utils::HashMap};
+use bevy::{
+    prelude::*,
+    utils::{HashMap, HashSet},
+};
 use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
 
@@ -25,6 +28,7 @@ fn main() {
         })
         .add_plugin(LdtkPlugin)
         .insert_resource(LevelSelection::Index(0))
+        .insert_resource(AnsweredRiddles::new())
         .add_startup_system(setup_system)
         .add_system_set(
             SystemSet::on_update(GameState::MapExploring)
@@ -184,6 +188,8 @@ struct Answer {
     position: usize,
 }
 
+type AnsweredRiddles = HashSet<String>;
+
 impl From<EntityInstance> for RiddleInfo {
     fn from(entity_instance: EntityInstance) -> Self {
         let fields = HashMap::from_iter(entity_instance.field_instances.iter().map(|field| {
@@ -275,9 +281,13 @@ fn level_loaded_system(mut state: ResMut<State<GameState>>, doors: Query<&Riddle
 fn init_riddles_system(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
+    answered_riddles: Res<AnsweredRiddles>,
     mut doors: Query<&mut RiddleInfo>,
 ) {
     for mut door in doors.iter_mut() {
+        if answered_riddles.contains(&door.question) {
+            continue;
+        }
         door.riddle = Some(
             commands
                 .spawn_bundle(root_node())
@@ -310,6 +320,7 @@ fn init_riddles_system(
 fn touch_door_system(
     keyboard_input: Res<Input<KeyCode>>,
     rapier_context: Res<RapierContext>,
+    answered_riddles: Res<AnsweredRiddles>,
     mut state: ResMut<State<GameState>>,
     player_info: Query<Entity, With<Player>>,
     mut doors: Query<(Entity, &mut RiddleInfo)>,
@@ -319,7 +330,10 @@ fn touch_door_system(
     if keyboard_input.just_pressed(KeyCode::Space) {
         for (door, mut riddle_info) in doors.iter_mut() {
             if let Some(contact_pair) = rapier_context.intersection_pair(player, door) {
-                if contact_pair {
+                if !contact_pair {
+                    continue;
+                }
+                if !answered_riddles.contains(&riddle_info.question) {
                     let (mut node_style, mut node_visibility) = riddle_nodes
                         .get_mut(riddle_info.riddle.expect(
                             "The riddle entity is supposed to be set by the init_riddles_system!",
@@ -329,6 +343,8 @@ fn touch_door_system(
                     node_visibility.is_visible = true;
                     riddle_info.active = true;
                     state.set(GameState::RiddleSolving).unwrap();
+                } else {
+                    todo!("Going to the next level!");
                 }
             }
         }
@@ -362,6 +378,7 @@ fn answering_riddle_system(
 fn correct_answer_system(
     mut commands: Commands,
     keyboard_input: Res<Input<KeyCode>>,
+    mut answered_riddles: ResMut<AnsweredRiddles>,
     mut state: ResMut<State<GameState>>,
     mut doors: Query<(&mut RiddleInfo, &mut TextureAtlasSprite)>,
     answer_nodes: Query<(&Text, &ComputedVisibility, &Answer)>,
@@ -386,6 +403,7 @@ fn correct_answer_system(
         if answer != door.answer {
             return;
         }
+        answered_riddles.insert(door.question.clone());
         commands
             .entity(
                 door.riddle
