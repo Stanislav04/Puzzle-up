@@ -169,6 +169,17 @@ struct RiddleInfo {
 #[derive(Component)]
 struct RiddleNode;
 
+#[derive(Component)]
+struct AnswerContainer {
+    index: usize,
+    answer_length: usize,
+}
+
+#[derive(Component)]
+struct Answer {
+    position: usize,
+}
+
 impl From<EntityInstance> for RiddleInfo {
     fn from(entity_instance: EntityInstance) -> Self {
         let fields = HashMap::from_iter(entity_instance.field_instances.iter().map(|field| {
@@ -271,10 +282,20 @@ fn init_riddles_system(
                     parent.spawn_bundle(question_text(&asset_server, &door.question));
                     parent
                         .spawn_bundle(answer_container())
+                        .insert(AnswerContainer {
+                            index: 0,
+                            answer_length: door.answer.len(),
+                        })
                         .with_children(|parent| {
-                            parent.spawn_bundle(answer_position(&asset_server, Color::RED));
-                            parent.spawn_bundle(answer_position(&asset_server, Color::BLUE));
-                            parent.spawn_bundle(answer_position(&asset_server, Color::YELLOW));
+                            parent
+                                .spawn_bundle(answer_position(&asset_server, Color::RED))
+                                .insert(Answer { position: 0 });
+                            parent
+                                .spawn_bundle(answer_position(&asset_server, Color::BLUE))
+                                .insert(Answer { position: 1 });
+                            parent
+                                .spawn_bundle(answer_position(&asset_server, Color::YELLOW))
+                                .insert(Answer { position: 2 });
                         });
                 })
                 .id(),
@@ -303,5 +324,29 @@ fn touch_door_system(
                 }
             }
         }
+    }
+}
+
+fn answering_riddle_system(
+    mut input: EventReader<ReceivedCharacter>,
+    mut container_info: Query<(&mut AnswerContainer, &ComputedVisibility)>,
+    mut answer_nodes: Query<(&mut Text, &ComputedVisibility, &Answer)>,
+) {
+    for character in input.iter() {
+        if !('0'..='9').contains(&character.char) {
+            continue;
+        }
+        let (mut container, _) = container_info
+            .iter_mut()
+            .filter(|(_, visibility)| visibility.is_visible())
+            .next()
+            .expect("A visible container is expected while this system is running!");
+        let (mut answer, _, _) = answer_nodes
+            .iter_mut()
+            .filter(|(_, visibility, _)| visibility.is_visible())
+            .find(|(_, _, answer)| answer.position == container.index)
+            .expect("The container is expected to have answer positions and the container's index is always valid!");
+        answer.sections[0].value = character.char.to_string();
+        container.index = (container.index + 1) % container.answer_length;
     }
 }
