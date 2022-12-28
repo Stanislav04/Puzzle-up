@@ -34,7 +34,8 @@ fn main() {
         .add_system_set(
             SystemSet::on_update(GameState::RiddleSolving)
                 .with_system(answering_riddle_system)
-                .with_system(correct_answer_system),
+                .with_system(correct_answer_system)
+                .with_system(close_riddle_system),
         )
         .add_system_set(
             SystemSet::on_update(GameState::LevelLoading).with_system(level_loaded_system),
@@ -393,6 +394,30 @@ fn correct_answer_system(
             .despawn_recursive();
         sprite.index = 75;
         door.active = false;
+        state.set(GameState::MapExploring).unwrap();
+    }
+}
+
+fn close_riddle_system(
+    keyboard_input: Res<Input<KeyCode>>,
+    mut state: ResMut<State<GameState>>,
+    mut doors: Query<&mut RiddleInfo>,
+    mut riddle_nodes: Query<(&mut Style, &mut Visibility), With<RiddleNode>>,
+) {
+    if keyboard_input.just_pressed(KeyCode::Escape) {
+        let mut door = doors
+            .iter_mut()
+            .filter(|door| door.active)
+            .next()
+            .expect("Exactly one active door is expected while this system is running!");
+        door.active = false;
+        let (mut riddle_style, mut riddle_visibility) = riddle_nodes
+            .iter_mut()
+            .filter(|(_, visibility)| visibility.is_visible)
+            .next()
+            .expect("Exactly one visible riddle node is expected while this system is running!");
+        riddle_style.display = Display::None;
+        riddle_visibility.is_visible = false;
         state.set(GameState::MapExploring).unwrap();
     }
 }
