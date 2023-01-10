@@ -50,6 +50,7 @@ fn main() {
         .register_ldtk_entity::<GroundTile>("Ground")
         .register_ldtk_entity::<GroundTile>("LevelBorder")
         .register_ldtk_entity::<Door>("Door")
+        .register_ldtk_entity::<Box>("Box")
         .run();
 }
 
@@ -133,6 +134,17 @@ struct ColliderBundle {
     rigid_body: RigidBody,
 }
 
+#[derive(Default, Bundle, LdtkEntity)]
+struct Box {
+    #[sprite_sheet_bundle]
+    #[bundle]
+    sprite_sheet_bundle: SpriteSheetBundle,
+    #[from_entity_instance]
+    #[bundle]
+    collider_bundle: ColliderBundle,
+    ground: Ground,
+}
+
 impl From<EntityInstance> for ColliderBundle {
     fn from(entity_instance: EntityInstance) -> Self {
         match entity_instance.identifier.as_ref() {
@@ -144,7 +156,7 @@ impl From<EntityInstance> for ColliderBundle {
                 collider: Collider::cuboid(TILE_SIZE / 2.0, TILE_SIZE / 2.0),
                 rigid_body: RigidBody::Fixed,
             },
-            "Door" => Self {
+            "Door" | "Box" => Self {
                 collider: Collider::cuboid(DOOR_SIZE / 2.0, DOOR_SIZE / 2.0),
                 rigid_body: RigidBody::Fixed,
             },
