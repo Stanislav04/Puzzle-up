@@ -62,7 +62,7 @@ fn setup_system(mut commands: Commands, asset_server: ResMut<AssetServer>) {
 
     commands
         .spawn_bundle(SpriteBundle {
-            texture: asset_server.load("Kenney/PNG/Player/Poses/player_idle.png"),
+            texture: asset_server.load("player/player_idle.png"),
             transform: Transform {
                 translation: Vec3::new(0.0, 0.0, 10.0),
                 scale: Vec3::new(0.5, 0.5, 1.0),
@@ -275,7 +275,7 @@ fn answer_position(asset_server: &Res<AssetServer>, color: Color) -> TextBundle 
         text: Text::from_section(
             "_".to_string(),
             TextStyle {
-                font: asset_server.load("MontserratAlternates-MediumItalic.ttf"),
+                font: asset_server.load("fonts/MontserratAlternates-MediumItalic.ttf"),
                 font_size: 60.0,
                 color,
             },
