@@ -9,6 +9,7 @@ const TILE_SIZE: f32 = 16.0;
 const DOOR_SIZE: f32 = 64.0;
 const MAP_WIDTH: f32 = 608.0;
 const MAP_HEIGHT: f32 = 272.0;
+const JUMP_POWER: f32 = 100.0;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
 enum GameState {
@@ -50,7 +51,7 @@ fn main() {
         .register_ldtk_entity::<GroundTile>("Ground")
         .register_ldtk_entity::<GroundTile>("LevelBorder")
         .register_ldtk_entity::<Door>("Door")
-        .register_ldtk_entity::<Box>("Box")
+        .register_ldtk_entity::<BoxTile>("Box")
         .run();
 }
 
@@ -90,9 +91,9 @@ fn player_movement_system(
     tile_info: Query<Entity, With<Ground>>,
 ) {
     let (player, mut velocity) = player_info.single_mut();
-    let up = keyboard_input.any_pressed([KeyCode::Up, KeyCode::W]);
-    let left = keyboard_input.any_pressed([KeyCode::Left, KeyCode::A]);
-    let right = keyboard_input.any_pressed([KeyCode::Right, KeyCode::D]);
+    let up: bool = keyboard_input.any_pressed([KeyCode::Up, KeyCode::W]);
+    let left: bool = keyboard_input.any_pressed([KeyCode::Left, KeyCode::A]);
+    let right: bool = keyboard_input.any_pressed([KeyCode::Right, KeyCode::D]);
 
     velocity.linvel.x += -(left as i8 as f32) + right as i8 as f32;
 
@@ -101,7 +102,7 @@ fn player_movement_system(
             if let Some(contact_pair) = rapier_context.contact_pair(player, tile) {
                 for manifold in contact_pair.manifolds() {
                     if manifold.normal().y == -1.0 {
-                        velocity.linvel.y += (up as i8 as f32) * 100.0;
+                        velocity.linvel.y += (up as i8 as f32) * JUMP_POWER;
                         break;
                     }
                 }
@@ -135,7 +136,7 @@ struct ColliderBundle {
 }
 
 #[derive(Default, Bundle, LdtkEntity)]
-struct Box {
+struct BoxTile {
     #[sprite_sheet_bundle]
     #[bundle]
     sprite_sheet_bundle: SpriteSheetBundle,
