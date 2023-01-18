@@ -1,4 +1,5 @@
-use crate::{GameState, RiddleInfo};
+use crate::riddles::RiddleInfo;
+use crate::GameState;
 use bevy::prelude::*;
 use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
