@@ -4,12 +4,14 @@ use bevy::{
 };
 use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
+use player::{Player, PlayerPlugin};
+
+mod player;
 
 const TILE_SIZE: f32 = 16.0;
 const DOOR_SIZE: f32 = 64.0;
 const MAP_WIDTH: f32 = 736.0;
 const MAP_HEIGHT: f32 = 384.0;
-const JUMP_POWER: f32 = 100.0;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
 enum GameState {
@@ -31,10 +33,9 @@ fn main() {
         .insert_resource(LevelSelection::Index(0))
         .insert_resource(AnsweredRiddles::new())
         .add_startup_system(setup_system)
+        .add_plugin(PlayerPlugin)
         .add_system_set(
-            SystemSet::on_update(GameState::MapExploring)
-                .with_system(player_movement_system)
-                .with_system(touch_door_system),
+            SystemSet::on_update(GameState::MapExploring).with_system(touch_door_system),
         )
         .add_system_set(
             SystemSet::on_update(GameState::RiddleSolving)
@@ -55,60 +56,14 @@ fn main() {
         .run();
 }
 
-#[derive(Component)]
-struct Player;
-
 fn setup_system(mut commands: Commands, asset_server: ResMut<AssetServer>) {
     commands.spawn_bundle(Camera2dBundle::default());
-
-    commands
-        .spawn_bundle(SpriteBundle {
-            texture: asset_server.load("player/player_idle.png"),
-            transform: Transform {
-                translation: Vec3::new(0.0, 0.0, 10.0),
-                scale: Vec3::new(0.5, 0.5, 1.0),
-                ..Default::default()
-            },
-            ..Default::default()
-        })
-        .insert(Player)
-        .insert(Velocity::default())
-        .insert(RigidBody::Dynamic)
-        .insert(Collider::cuboid(30.0, 55.0))
-        .insert(LockedAxes::ROTATION_LOCKED);
 
     commands.spawn_bundle(LdtkWorldBundle {
         ldtk_handle: asset_server.load("map.ldtk"),
         transform: Transform::from_xyz(-MAP_WIDTH / 2.0, -MAP_HEIGHT / 2.0, 0.0),
         ..default()
     });
-}
-
-fn player_movement_system(
-    keyboard_input: Res<Input<KeyCode>>,
-    rapier_context: Res<RapierContext>,
-    mut player_info: Query<(Entity, &mut Velocity), With<Player>>,
-    tile_info: Query<Entity, With<Ground>>,
-) {
-    let (player, mut velocity) = player_info.single_mut();
-    let up: bool = keyboard_input.any_pressed([KeyCode::Up, KeyCode::W]);
-    let left: bool = keyboard_input.any_pressed([KeyCode::Left, KeyCode::A]);
-    let right: bool = keyboard_input.any_pressed([KeyCode::Right, KeyCode::D]);
-
-    velocity.linvel.x += -(left as i8 as f32) + right as i8 as f32;
-
-    if up {
-        for tile in tile_info.iter() {
-            if let Some(contact_pair) = rapier_context.contact_pair(player, tile) {
-                for manifold in contact_pair.manifolds() {
-                    if manifold.normal().y == -1.0 {
-                        velocity.linvel.y += (up as i8 as f32) * JUMP_POWER;
-                        break;
-                    }
-                }
-            }
-        }
-    }
 }
 
 #[derive(Default, Bundle, LdtkEntity, Component)]
