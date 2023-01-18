@@ -1,4 +1,4 @@
-use crate::{GameState, Ground};
+use crate::{map::Ground, GameState};
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
