@@ -49,12 +49,12 @@ fn player_movement_system(
     velocity.linvel.x += -(left as i8 as f32) + right as i8 as f32;
 
     if up {
-        'outer: for tile in tile_info.iter() {
+        for tile in tile_info.iter() {
             if let Some(contact_pair) = rapier_context.contact_pair(player, tile) {
                 for manifold in contact_pair.manifolds() {
                     if manifold.normal().y == -1.0 {
                         velocity.linvel.y += (up as i8 as f32) * JUMP_POWER;
-                        break 'outer;
+                        return;
                     }
                 }
             }

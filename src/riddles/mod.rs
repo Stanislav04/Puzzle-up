@@ -1,5 +1,4 @@
-use crate::player::Player;
-use crate::GameState;
+use crate::{map::CurrentLevel, player::Player, GameState};
 use bevy::{
     prelude::*,
     utils::{HashMap, HashSet},
@@ -51,6 +50,7 @@ pub struct RiddleInfo {
     answer: String,
     riddle: Option<Entity>,
     active: bool,
+    next_level: String,
 }
 
 impl From<EntityInstance> for RiddleInfo {
@@ -72,6 +72,10 @@ impl From<EntityInstance> for RiddleInfo {
             answer: fields
                 .get("answer")
                 .expect("An answer is required for a riddle!")
+                .clone(),
+            next_level: fields
+                .get("next_level")
+                .expect("A next level is required for a riddle!")
                 .clone(),
             ..Default::default()
         }
@@ -120,10 +124,11 @@ fn init_riddles_system(
 }
 
 fn touch_door_system(
-    keyboard_input: Res<Input<KeyCode>>,
     rapier_context: Res<RapierContext>,
     answered_riddles: Res<AnsweredRiddles>,
+    mut keyboard_input: ResMut<Input<KeyCode>>,
     mut state: ResMut<State<GameState>>,
+    mut current_level: ResMut<CurrentLevel>,
     player_info: Query<Entity, With<Player>>,
     mut doors: Query<(Entity, &mut RiddleInfo)>,
     mut riddle_nodes: Query<(&mut Style, &mut Visibility), With<RiddleNode>>,
@@ -145,9 +150,12 @@ fn touch_door_system(
                     node_visibility.is_visible = true;
                     riddle_info.active = true;
                     state.set(GameState::RiddleSolving).unwrap();
-                } else {
-                    todo!("Going to the next level!");
+                    return;
                 }
+                keyboard_input.reset(KeyCode::Space);
+                current_level.clone_from(&riddle_info.next_level);
+                state.set(GameState::LevelLoading).unwrap();
+                return;
             }
         }
     }
