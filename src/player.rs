@@ -16,6 +16,7 @@ impl Plugin for PlayerPlugin {
 pub struct Player;
 
 const JUMP_POWER: f32 = 100.0;
+const RUN_POWER: f32 = 100.0;
 
 fn player_setup_system(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands
@@ -46,7 +47,13 @@ fn player_movement_system(
     let left: bool = keyboard_input.any_pressed([KeyCode::Left, KeyCode::A]);
     let right: bool = keyboard_input.any_pressed([KeyCode::Right, KeyCode::D]);
 
-    velocity.linvel.x += -(left as i8 as f32) + right as i8 as f32;
+    velocity.linvel.x = if left {
+        -RUN_POWER
+    } else if right {
+        RUN_POWER
+    } else {
+        0.0
+    };
 
     if up {
         for tile in tile_info.iter() {
