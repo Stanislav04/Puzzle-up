@@ -39,17 +39,19 @@ fn player_setup_system(mut commands: Commands, asset_server: Res<AssetServer>) {
 fn player_movement_system(
     keyboard_input: Res<Input<KeyCode>>,
     rapier_context: Res<RapierContext>,
-    mut player_info: Query<(Entity, &mut Velocity), With<Player>>,
+    mut player_info: Query<(Entity, &mut Velocity, &mut Sprite), With<Player>>,
     tile_info: Query<Entity, With<Ground>>,
 ) {
-    let (player, mut velocity) = player_info.single_mut();
+    let (player, mut velocity, mut sprite) = player_info.single_mut();
     let up: bool = keyboard_input.any_pressed([KeyCode::Up, KeyCode::W]);
     let left: bool = keyboard_input.any_pressed([KeyCode::Left, KeyCode::A]);
     let right: bool = keyboard_input.any_pressed([KeyCode::Right, KeyCode::D]);
 
     velocity.linvel.x = if left {
+        sprite.flip_x = true;
         -RUN_POWER
     } else if right {
+        sprite.flip_x = false;
         RUN_POWER
     } else {
         0.0
