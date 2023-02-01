@@ -22,7 +22,7 @@ fn main() {
         .add_state(GameState::LevelLoading)
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
         .insert_resource(RapierConfiguration {
-            gravity: Vec2::new(0.0, -50.0),
+            gravity: Vec2::new(0.0, -400.0),
             ..Default::default()
         })
         .add_plugin(LdtkPlugin)

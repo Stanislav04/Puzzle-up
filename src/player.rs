@@ -15,7 +15,7 @@ impl Plugin for PlayerPlugin {
 #[derive(Component)]
 pub struct Player;
 
-const JUMP_POWER: f32 = 100.0;
+const JUMP_POWER: f32 = 250.0;
 const RUN_POWER: f32 = 100.0;
 
 fn player_setup_system(mut commands: Commands, asset_server: Res<AssetServer>) {
@@ -60,7 +60,7 @@ fn player_movement_system(
             if let Some(contact_pair) = rapier_context.contact_pair(player, tile) {
                 for manifold in contact_pair.manifolds() {
                     if manifold.normal().y == -1.0 {
-                        velocity.linvel.y += (up as i8 as f32) * JUMP_POWER;
+                        velocity.linvel.y = JUMP_POWER;
                         return;
                     }
                 }
