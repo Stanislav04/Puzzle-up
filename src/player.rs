@@ -39,6 +39,7 @@ struct ColliderBundle {
     collider: Collider,
     rigid_body: RigidBody,
     locked_axes: LockedAxes,
+    friction: Friction,
 }
 
 impl From<EntityInstance> for ColliderBundle {
@@ -47,6 +48,10 @@ impl From<EntityInstance> for ColliderBundle {
             collider: Collider::cuboid(PLAYER_WIDTH / 2.0, PLAYER_HEIGHT / 2.0),
             rigid_body: RigidBody::Dynamic,
             locked_axes: LockedAxes::ROTATION_LOCKED,
+            friction: Friction {
+                coefficient: 0.0,
+                combine_rule: CoefficientCombineRule::Min,
+            },
         }
     }
 }

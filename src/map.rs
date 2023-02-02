@@ -9,7 +9,7 @@ pub struct MapPlugin;
 impl Plugin for MapPlugin {
     fn build(&self, app: &mut App) {
         app.add_startup_system(map_setup_system)
-            .insert_resource(CurrentLevel::from("6c6ef290-5110-11ed-90f2-ab2793fe3460"))
+            .insert_resource(CurrentLevel::from(STARTING_LEVEL))
             .add_system_set(
                 SystemSet::on_enter(GameState::LevelLoading).with_system(level_loading_system),
             )
@@ -28,6 +28,7 @@ impl Plugin for MapPlugin {
     }
 }
 
+const STARTING_LEVEL: &str = "6c6ef290-5110-11ed-90f2-ab2793fe3460";
 const SMALL_TILE_SIZE: f32 = 16.0;
 const LARGE_TILE_SIZE: f32 = 64.0;
 

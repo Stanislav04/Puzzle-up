@@ -22,6 +22,7 @@ impl Plugin for RiddlesPlugin {
             .add_system_set(
                 SystemSet::on_update(GameState::RiddleSolving)
                     .with_system(answering_riddle_system)
+                    .with_system(delete_digit_system)
                     .with_system(correct_answer_system)
                     .with_system(close_riddle_system),
             );
@@ -181,6 +182,29 @@ fn answering_riddle_system(
         answer.sections[0].value = character.char.to_string();
         container.index = (container.index + 1) % container.answer_length;
     }
+}
+
+fn delete_digit_system(
+    keyboard_input: Res<Input<KeyCode>>,
+    mut container_info: Query<(&mut AnswerContainer, &ComputedVisibility)>,
+    mut answer_nodes: Query<(&mut Text, &ComputedVisibility, &Answer)>,
+) {
+    if !keyboard_input.just_pressed(KeyCode::Back) {
+        return;
+    }
+    let (mut container, _) = container_info
+        .iter_mut()
+        .find(|(_, visibility)| visibility.is_visible())
+        .expect("A visible container is expected while this system is running!");
+    if container.index == 0 {
+        container.index = container.answer_length;
+    }
+    container.index -= 1;
+    let (mut answer, _, _) = answer_nodes
+            .iter_mut()
+            .find(|(_, visibility, answer)| visibility.is_visible() && answer.position == container.index)
+            .expect("The container is expected to have answer positions and the container's index is always valid!");
+    answer.sections[0].value = "_".to_string();
 }
 
 fn correct_answer_system(
