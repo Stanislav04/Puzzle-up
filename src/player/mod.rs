@@ -1,18 +1,20 @@
 use crate::{map::Ground, GameState};
+use animations::{AnimationInfo, AnimationType, AnimationsPlugin};
 use bevy::{prelude::*, utils::HashMap};
 use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
+
+mod animations;
 
 pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
-        app.add_system_set(
-            SystemSet::on_update(GameState::MapExploring)
-                .with_system(player_movement_system)
-                .with_system(animate_player_system),
-        )
-        .register_ldtk_entity::<PlayerBundle>("Player");
+        app.add_plugin(AnimationsPlugin)
+            .add_system_set(
+                SystemSet::on_update(GameState::MapExploring).with_system(player_movement_system),
+            )
+            .register_ldtk_entity::<PlayerBundle>("Player");
     }
 }
 
@@ -69,96 +71,24 @@ impl From<EntityInstance> for ColliderBundle {
     }
 }
 
-#[derive(Default, Eq, PartialEq, Hash)]
-enum AnimationType {
-    #[default]
-    IDLE,
-    RUN,
-    JUMP,
-    FALL,
-}
-
-#[derive(Default, Component)]
-struct AnimationInfo {
-    animations: HashMap<AnimationType, Vec<usize>>,
-    current_animation_type: AnimationType,
-    current_animation: Vec<usize>,
-    index: usize,
-    timer: Timer,
-}
-
-impl AnimationInfo {
-    fn new(
-        animations: HashMap<AnimationType, Vec<usize>>,
-        animation_type: AnimationType,
-        timer: Timer,
-    ) -> Self {
-        let current_animation = animations
-            .get(&animation_type)
-            .expect("Animation type should have value in the map!")
-            .clone();
-        Self {
-            animations,
-            current_animation_type: animation_type,
-            current_animation,
-            index: 0,
-            timer,
-        }
-    }
-
-    fn set_animation(&mut self, animation_type: AnimationType) {
-        if animation_type == self.current_animation_type {
-            return;
-        }
-        if let Some(animation) = self.animations.get(&animation_type) {
-            self.current_animation_type = animation_type;
-            self.current_animation = animation.clone();
-            self.index = 0;
-            self.timer.set_elapsed(self.timer.duration());
-        }
-    }
-}
-
-fn animate_player_system(
-    time: Res<Time>,
-    mut animation_info: Query<(&mut TextureAtlasSprite, &mut AnimationInfo), With<Player>>,
-) {
-    let (mut sprite, mut animation_info) = animation_info.single_mut();
-    if animation_info.timer.tick(time.delta()).just_finished() {
-        animation_info.index = (animation_info.index + 1) % animation_info.current_animation.len();
-        sprite.index = animation_info.current_animation[animation_info.index];
-    }
-}
-
 fn player_movement_system(
     keyboard_input: Res<Input<KeyCode>>,
     rapier_context: Res<RapierContext>,
-    mut player_info: Query<
-        (
-            Entity,
-            &mut Velocity,
-            &mut TextureAtlasSprite,
-            &mut AnimationInfo,
-        ),
-        With<Player>,
-    >,
+    mut player_info: Query<(Entity, &mut Velocity, &mut TextureAtlasSprite), With<Player>>,
     tile_info: Query<Entity, With<Ground>>,
 ) {
-    let (player, mut velocity, mut sprite, mut animation_info) = player_info.single_mut();
+    let (player, mut velocity, mut sprite) = player_info.single_mut();
     let up: bool = keyboard_input.any_pressed([KeyCode::Up, KeyCode::W]);
     let left: bool = keyboard_input.any_pressed([KeyCode::Left, KeyCode::A]);
     let right: bool = keyboard_input.any_pressed([KeyCode::Right, KeyCode::D]);
 
     velocity.linvel.x = if left {
         sprite.flip_x = true;
-        animation_info.set_animation(AnimationType::RUN);
         -RUN_POWER
     } else if right {
         sprite.flip_x = false;
-        animation_info.set_animation(AnimationType::RUN);
         RUN_POWER
     } else {
-        animation_info.set_animation(AnimationType::IDLE);
         0.0
     };
 
