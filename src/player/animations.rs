@@ -11,7 +11,8 @@ impl Plugin for AnimationsPlugin {
             SystemSet::on_update(GameState::MapExploring)
                 .with_system(animate_player_system)
                 .with_system(idle_animation_trigger_system)
-                .with_system(run_animation_trigger_system),
+                .with_system(run_animation_trigger_system)
+                .with_system(jump_animation_trigger_system),
         );
     }
 }
@@ -70,7 +71,7 @@ fn idle_animation_trigger_system(
     mut animation_info: Query<(&mut AnimationInfo, &Velocity), With<Player>>,
 ) {
     let (mut animation_info, velocity) = animation_info.single_mut();
-    if animation_info.current_animation_type == AnimationType::IDLE {
+    if [AnimationType::IDLE, AnimationType::JUMP].contains(&animation_info.current_animation_type) {
         return;
     }
     if velocity.linvel.x != 0.0 {
@@ -90,6 +91,28 @@ fn run_animation_trigger_system(
         return;
     }
     animation_info.set_animation(AnimationType::RUN);
+}
+
+fn jump_animation_trigger_system(
+    mut events: EventReader<CollisionEvent>,
+    mut animation_info: Query<(&mut AnimationInfo, &Velocity), With<Player>>,
+) {
+    let (mut animation_info, velocity) = animation_info.single_mut();
+    if animation_info.current_animation_type == AnimationType::JUMP {
+        return;
+    }
+    for event in events.iter() {
+        if let CollisionEvent::Stopped(_, _, flag) = event {
+            if !flag.is_empty() {
+                continue;
+            }
+            if velocity.linvel.y < 0.0 {
+                continue;
+            }
+            animation_info.set_animation(AnimationType::JUMP);
+            return;
+        }
+    }
 }
 
 fn animate_player_system(

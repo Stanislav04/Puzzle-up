@@ -44,6 +44,7 @@ struct ColliderBundle {
     rigid_body: RigidBody,
     locked_axes: LockedAxes,
     friction: Friction,
+    active_events: ActiveEvents,
     animation_info: AnimationInfo,
 }
 
@@ -57,6 +58,7 @@ impl From<EntityInstance> for ColliderBundle {
                 coefficient: 0.0,
                 combine_rule: CoefficientCombineRule::Min,
             },
+            active_events: ActiveEvents::COLLISION_EVENTS,
             animation_info: AnimationInfo::new(
                 HashMap::from_iter([
                     (AnimationType::IDLE, vec![0]),
