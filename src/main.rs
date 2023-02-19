@@ -20,7 +20,7 @@ fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
         .add_state(GameState::LevelLoading)
-        .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
+        .add_plugin(RapierPhysicsPlugin::<NoUserData>::default())
         .insert_resource(RapierConfiguration {
             gravity: Vec2::new(0.0, -400.0),
             ..Default::default()

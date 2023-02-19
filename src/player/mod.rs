@@ -80,9 +80,9 @@ fn player_movement_system(
     tile_info: Query<Entity, With<Ground>>,
 ) {
     let (player, mut velocity, mut sprite) = player_info.single_mut();
-    let up: bool = keyboard_input.any_pressed([KeyCode::Up, KeyCode::W]);
-    let left: bool = keyboard_input.any_pressed([KeyCode::Left, KeyCode::A]);
-    let right: bool = keyboard_input.any_pressed([KeyCode::Right, KeyCode::D]);
+    let up = keyboard_input.any_pressed([KeyCode::Up, KeyCode::W]);
+    let left = keyboard_input.any_pressed([KeyCode::Left, KeyCode::A]);
+    let right = keyboard_input.any_pressed([KeyCode::Right, KeyCode::D]);
 
     velocity.linvel.x = if left {
         sprite.flip_x = true;

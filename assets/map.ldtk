@@ -10,7 +10,7 @@
 	},
 	"jsonVersion": "1.1.3",
 	"appBuildId": 463768,
-	"nextUid": 29,
+	"nextUid": 31,
 	"identifierStyle": "Capitalize",
 	"worldLayout": "Free",
 	"worldGridWidth": 256,
@@ -58,6 +58,33 @@
 			"autoRuleGroups": [],
 			"autoSourceLayerDefUid": null,
 			"tilesetDefUid": null,
+			"tilePivotX": 0,
+			"tilePivotY": 0
+		},
+		{
+			"__type": "Tiles",
+			"identifier": "Clouds",
+			"type": "Tiles",
+			"uid": 29,
+			"gridSize": 16,
+			"guideGridWid": 0,
+			"guideGridHei": 0,
+			"displayOpacity": 1,
+			"inactiveOpacity": 1,
+			"hideInList": false,
+			"hideFieldsWhenInactive": false,
+			"pxOffsetX": 0,
+			"pxOffsetY": 0,
+			"parallaxFactorX": 0,
+			"parallaxFactorY": 0,
+			"parallaxScaling": true,
+			"requiredTags": [],
+			"excludedTags": [],
+			"intGridValues": [],
+			"autoTilesetDefUid": 30,
+			"autoRuleGroups": [],
+			"autoSourceLayerDefUid": null,
+			"tilesetDefUid": 30,
 			"tilePivotX": 0,
 			"tilePivotY": 0
 		},
@@ -561,6 +588,28 @@
 				"opaqueTiles": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000001110000001110000000000001110000111000000111000000100000000100000111000011111000011100000001000011110000111100001111000001110000011100001111000011110000011100000111000011110000111100001111000011110000111100001111000001110000011100001111000001110000111100001111000111100001111100001110000011110000111100000111000011110000111000000111000011110000111100001111000001110000011100000111000001100000111000000111000001110000011100000111000001110000011100001111000001000000100000000001000001110000011100001001000000000000000100011111000000010000100000000001000000010000100100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000100000011000000110000001000000010000001000000001100000110000001110000011100000111000001110000111000001110000111100000111100001110000011110000111100001111000001110001111000001110000111100000111000001110000011100000111000001111000001110001110000001110000111100000111000001110000001100000111000001110000001110001110000001110000111000000111000001110000011110000111100001111000011110001111000001110000111000001111000011110000001100000011000000111000011110001111000001110000111000000110000001111000000000000010000001001000001100001101000001000000110000001000000001000000000010000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000010000000000000011100001000000000010000001100000000000000000000000000001110000011000000111110001110000001110000011100000000000000000000000000011110000111000000111110001111000011110000111100000000000000000000000000011110000111000000011100001111000011110000111100000000000000000000000000001110000111100000111100000111000011100000011000000000000000000000000000011110000011110000001100001110000011110000111100000000000000000000000000001100100000101000000000000110000001110000111100000000000000000000000000011010000000000000010000000110000000010000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
 				"averageColors": "000000000000000000000000000000000000000000000000000000000b8500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000b841b85000000000000000000000c852b8500000000000000002b850c850000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b846b853b850000000000000b844b849b85db857b8500000000000000001b846b859b85cb852b8500000000000000000000000000000000000000001b847b84bb85eb85ab85000000002fda2db87b85db85bb850000000000000000bb85db857b852db82fda00000000000000000b844b858b850c85000000000000000000002b847b851b850000000000004b84cb85fb85fb854b85000000000b859b84fb85fb85fb857c850fda000000003b84eb85fb85fb85fb850c8500000000000000000b843b854b85000000000b84bb84fb85fb85fb85ac8500000000decafb85fb85fb84db850c85000000000c85db85fb84fb85fb85deca0000000000005b84db85fb85fb850c850000000000003b84bb85fb85fb851c85000000002b84eb85fb85fb85fb856b85000000002b84fb85fda7fda7fc96fdb87fda00000000ab84fda7fda8fc96fc851c85000000002b84ab85eb85fb85bc85000000001b84fc96fdb8feb8fc969c9500000000ec96fb84fb84fb84fb852ca7000000002ca7fb85fb84fb84fb84ec9600001fda5c96fb85fb85fb85fb854da71fda0fda3c96eb85fb85fb85fb854c960fda00005b84fdb8fec9fec9fdb84c85000000002b84fdb8fecaffdafdcaffda6fda00000000bc96fecafedafecabeca000000000b85db85fb85fb85fb85bc85000000001b84fdb9fecbffdbfdca4ec900000000cca7fb85fb84fb84fb859fda000000009fdafb85fb84fb84fb85cca70000afdafdb8fdb8fec9fec9fdb8cecaafda9fdafdb8fda7feb9feb9fdb8bec9bfda00003b85fec9fedbfedbfedb1fda0000000005b6eedaffdbfdcaffdbfeda2fda000003c7add9ffdafdcafeca8fda000000001b84fca7fedafecafda89c960000000013b6eddafedafdcaffda4ac800000000aac8fca7fb85fc96fec98fda000000008fdafec9fc96fb85fca7aac800006fdafec9fecafedbfecafedbdfda7fda6fdafec9fec9fedbfedafedbdfda9fda000035c7fcd9fecafdc9fcd953c700000000b4b7f6c7f9c8fac8f7c7a3c600000fdabbc9f3c7f7c7fac8f9c8d5c718b700000b84fec9fecaffdafecb5eda00000fdabedaf4c7f6c7f8c7f4c7eac81fda000046c7f8c8fac8f8c8e4c72ac8000000002ac8e4c7f8c8fac8f8c846c700000fdacac8fddafecafdc9fbd9e9c81fda0fdacbc8fedafedafdcafcd9e9c81fda0000bbc9f6c7f4c7f4c7f6c7dcc900003fdafedad6c7f3c7f3c7f3b943c800009fdaefdae5c7f3c7f3c7f3c7fcc98fda000052b6fad9fdd9fdc9fddab7b700009fdadfdaa8c8f3c7f3c7d4c7cfdaafda000013c7f3c7f3c7f3b9d3ac039d00000000039dd3acf3b9f3c7f3c713c70000000013c7c3c7f4c7f4c7f3c733c70000000013c7c3c7f5c7f5c7f3c753c700000febefdaf9c8f3c7f3c7f7c8ffda1fda8fdacfda97b6f7b6f5a9f39d539d00009fda8fdad7a6f7a6f7a6f7b69edaefda0febcedaf8c8f3c7f4c8f8b9ffda1fdaafda7fda96a9f7a7f7a8e7998dcbcfda000023acf39de6aaf69af39c139d00000000139df39cf69ae6aaf39d23ac000000000000b3c7f3c7f3c7f3c723c7000000000000b3aaf3b8f3c7f3ba43ba00000000efdafbbaf799d899f9aaefda1fda5fda8fdad78af39ca888e8884889000000001a86f789a48c649cf49c99ac6fda2fdaffdaf7c8f4c6f4abf8acffda3fda00002b84e789d39c739df68aaa860b960000248cf68b98895b84aa860b84000000000b84aa865b849889f68b248c000000000000c79af799d899f79a289800000b848888f39cc59c978af39dc68a2b8400001db8d888e888a888f8883a860000000000004b84898700000b850b840000000000002b845b852778b9878a860b851fdacfdad99aa88ab888f8885ca80000000000003b845a8600004b840b84000000002b844b840b84000000000000000000000000000000000b844b842b84000000000b84d888e888a888f8883a86000000003b84b987238c039d97896b85000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b851b85000000000000000000000b843b851b8500000000000000000b843b857b853b85000000000000000000002b847b857b8500000000000000002b845b852b85000000000000000000000b844b855b8500000000000000002b847b85ab850000000000000000000000000b842b844b852b850000000000000b853b847b858b8500000000000000002b849b85db85fb854c850000000000003b849b85eb85fb852c850000000000005b84db85fb85fb854c850000000000002b84cb85fb85fb85ac85000000005b84cb85fb85fb854c850000000000001b84ab85eb85fb85bc85000000000b849b84fb85fb85dc850c850000000000000b849b84eb85fb85fb853c85000000003b84db85fb85fb85bc850000000000002b84eb85fb85fb85fb855c85000000002b84eb85fb85fb85fb853b85000000003b84eb85fb85fb85fb856c85000000000000cb85fc85fc85fb85bc8500003b84fb85fb85fb85fb855c85000000000000bb84fb85fb85fb85cc85000000007b84fb85fc85fb85fb856eca6fda000000008b84fc95fc95fb85fb852c8500000000cb85fc96fc96fb85cc850000000000006b84fda7fdb8fdb8fca74c85000000007b84fda7fdb8fdb8fda73c85000000005b84fdb8fecafec9fdb84c85000000000000ec96fecaffdafdb99db800006b84fdb8fecafec9fdb83b85000000000000ec96fecafecafdb8ada7000000009b84fec9fedafecafec9ffda9fda00000000bb85fedafecafdb8eda70c8500000000dc96fecaffdafec99eb80000000000005b85fecafecafedafedb0c85000000006b84fecafecafedafedb0b85000000003b85fecafedbfedbfedb1fda000000000000cdb9fedafedbfeca6fda00005b96ffdafdcafedaeedb0c85000000000000cdb8fecafedafecb7fda000000006b85ffdbfecbfdcafeda8dda000000000000aec9fedbfecafeca9fda000000000000bec9fedafecafeca7fda0000000000003dc9fedafecafecaeeda12b6000000003cc8fedafecafecaeeda23b60000000054c7fcd9fdc9fdc9fbd973c70000000033b6e9c8fcc9fdc9fbd95ad9000067c7fcd9fecafdc9fbd9bcc9afda8fda00009cd9fbd9fec9fdd97ac80000000067c7fcd9fdc9fcc9d9c813c60000000083c7f7c7fbc9fec9fdd9ceda6fda3fda22b6e7c8fac9fdc9fbc9aac8000000002fdacbc9f3c7f7c7f6c7f3c6cdda3fda0fdacbc9f3c6f7c7f6c7f3c6dcc92fda1fdaecc9f4c7f3c7f3c7f3c7e8c802a500007ddafbc8f3c7f3c7f3c764c70000c8c7f5c7f4c7f4c7f3c7bcc99fda5fda000083c7f7c7f9c8f4c7bdd900000000d7c7f5c7f3c7f3c7c3c7000000000000ccc9f8c8f3c7f3c7f3c7aedadfdabfda6ddafac8f3c7f3c7f3c7ecd91dcb0000cfdadfdac4c7f3c7f3c7e5c7cfdacfda8fdaefdab6c7f3c7f3c7e4c7cfdabfda9fdaefdae5c8f3c7f4c6f5b6feda2eca00009fdafdd9f5b6f4c6f4c628c80000cfdafbd9f3c7f3c7f3c733c7000000000000a3c7fbd9ffdafedaffda0fda0000cfdafbd9f3c7f4c6e5b7549c1b840000efdafac8f5b6f3c7f3c703c70ec90ec9afdadddaf3c7f5b6f7b6f59ae58b6b856fda3edac6a8f7a6f7a6e7a72eca3fda5fda6fda97a7f7a6f7a6f7a74dcb4fda5fdaccb9f789b8898989f69bf9994db800005fdaedb9f68bf69bebaa1ec90000afdafdcaf79ad899f79a2799000000000000b799f79adaaaf9ab7edb0fda00009fdafecaf79a8889f59ce8882b840000bfdafcbbd69bf79ad7990000000000008fdacedaf79ab78b278a839d99870b8400002a86f78ab48ca48bf68a3987000000000b84d58be39ca789f7893987000000000b849a86038c039d968a6a850000000000002b84a987f8888988000000001ecada98f888a888f8884987000000000b84c888f8888789f8886987000000001fdada98f8881888258a4b85000000001b859a865789e888d8881b840000000000004987f88898880000000000000000000000003b845b843b844b841b84000000000b845b848a861b841b840b840000000000000000000000000000000000000000000000000000000000000000000000000000000000003b858b85000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b846b853b850000000000000000000000001b85000000000000000000003b84bb85fb85fc850c85000000005b854b851b84000000000000000000000000000000002b856b853b85000000000000000000002b846b853b85000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004b84cb85fb85fb855c8500000000000000004b85bb859b8500000000000000002b84eb85fb85fb85fb858db85fda0000bc85fb85fb85cb853b8400000000000000004b85cb85fb85fb854b840000000000005b84db85fb85fb855c8500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b84eb85fb85fb85fb856b85000000000b84ab85fb85fb85cc8500000000000000005b84fca7feb9fec9fec9fec9cfda0000ac85fb85fc85fc95eb850b84000000003b85eb85fb84fb84fb846b85000000002b84fb85fc85fb85fb856c8500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004b84fda8fec9fec9fdb85c96000000007b84fb85fc96fc95fc960c850000000000003b84fdb8fecbffdafecafbc91cc900008c96fdb8ffdafecafda72ca7000000005b85fb85fb84fb84fb856b85000000004b84fdb8fecafec9fdb84c8500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002b85fec9fedbfedbfecb2fda000000008b84fec9fecafecafeca9edabfda5fda00000595eedafedafdc9fcd9c5c702c700003fdafecbfedbfedbfecaefda4fda00003eb8fc96fb84fb84fb852c96000000003b85fecafdcafedafedb1fda000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000053c7fcd9fecafdb9fcd945c7000000005b84fedafecafecaffdaebc9afda6fda00007edaf7b7f4c7f6c7f3c783c70000000028c8fcd9fdc9fdc9fac8deda7fda000037c7fcc9fca7fca7fbc953c70000000035c7fbd9fdcafdc9fcd953c70000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c8c7f5c7f4c7f4c7f4c7ecc95fda0fda0eb9bedafcc9fcc9f7c7f5b6a89a039d3fdaffda7edaf3c7f3c7f3b993ab0000000073c7f7c7fac9f8c8e3c7000000000000bbc9f5c7f4c7f4c7f3c7dbc900000000acc9f8c7f3c7f3c7f3c7bbc90000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000cfdafbd9f3c7f3c7f4c7bfdaffda5fda2fdadfdae8c8f3c7f3c7f898f48b7a866fdadfda169cf7a8c898f49cb39d0000000012b6ccc9ffdafdc9e6b6000000000febefdaf7c8f3c7f3c7f3c7feda1fda0000dfdafcd9f3c7f3c7f3c7eeda0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000afdafdcaf79ad799f79a18991fda0fda7fdaefda1da8e897f6a9568b99870b8400000fda7888f48c959c9a868987000000000000969bf68bf889f58b68880b850000dfdaf9aaf78ac889f78aeeda1fda00005fdafbbbe799d899f79abeda00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002ecada98f8889889f8884a87000000002fda4fda00006b85458a000000000000000000001b849a86288800000000000000000000239dc88859878a853b840b8400000b84d888e888a888f8883a86000000001a86f888c8888889f88859870000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
 			}
+		},
+		{
+			"__cWid": 31,
+			"__cHei": 17,
+			"identifier": "Clouds",
+			"uid": 30,
+			"relPath": "clues/clouds/clouds.png",
+			"embedAtlas": null,
+			"pxWid": 496,
+			"pxHei": 272,
+			"tileGridSize": 16,
+			"spacing": 0,
+			"padding": 0,
+			"tags": [],
+			"tagsSourceEnumUid": null,
+			"enumTags": [],
+			"customData": [],
+			"savedSelections": [],
+			"cachedPixelData": {
+				"opaqueTiles": "11111110000000000000000111111110000000000000000000000000000000000000000000000000000000000000001100000000000000000000000000001110000100000000001110000000000111110111000000000000000000000111111111110000000000000000001111111111111000000000000000011111111011111000000000000000111111111111111100000000000000011111111111111110000000000000001111111111111111100000000000001111111111111111100000000001111111111111111111111110000000111111111111111111111111100001111111111111111111111111110001111111111111111111111111111111111111111111111",
+				"averageColors": "fceffceffceffceffceffceffceffceffceffcefccef5cef1cef0000000000000000000000001cef3cef6cefdceffceffceffceffceffceffceffceffcef2cef2cef3cef3cef4cef5cef5cef6cef6cef7cef7cef7cef6cef5cef1cef00001cef4cef7cef9cef9cef8cef8cef7cef7cef6cef5cef4cef3cef3cef2cef3cef7cef6cef3cef000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000dceffceffcefacef0cef00001cef3cef0cef000000000000000000000000000000002cef9cefccef9cef2cef000000000000000000000000000000005ceffceffceffceffcefecef4cefeceffcef9cef5cef0000000000000000000000003cefcceffceffceffcefbcef4cef0000000000000000000000001ceffceffceffceffceffceffcefeceffceffceffceffcef2cef0000000000000cef4cef7cef8cef8cef7cef8cef9cef9cef4cef1cef000000007cefbcefaceffceffceffceffceffceffceffceffceffceffceffcef5cef000000000000000000000000000000000000000000000000000000004cef9cefdceffceffceffceffceffceffceffceffceffceffceffceffceffcef8cef0000000000000000000000000000000000000000000000003cefbcefcceffceffceffceffceffceffceffceffceffceffceffceffceffceffcefbcef1cef000000000000000000000000000000000000000000000000bceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffcef8cef0000000000000000000000000000000000000000000000006cefeceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffcefacef0000000000000000000000000000000000002cef0cef0cef3cefeceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffcef3cef00000000000000000000000000001cefdcefacefecefcceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffcef8cefacef1cef00000000000000000000cceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffcefccef0cef000000003cef8ceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffcef9cef0cef5ceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffcefdcefdceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffceffcef"
+			}
 		}
 	], "enums": [
 		{ "identifier": "DoorColor", "uid": 11, "values": [
@@ -590,14 +639,14 @@
 			"worldDepth": 0,
 			"pxWid": 736,
 			"pxHei": 384,
-			"__bgColor": "#696A79",
-			"bgColor": null,
+			"__bgColor": "#4DABF6",
+			"bgColor": "#4DABF6",
 			"useAutoIdentifier": true,
 			"bgRelPath": null,
 			"bgPos": null,
 			"bgPivotX": 0.5,
 			"bgPivotY": 0.5,
-			"__smartColor": "#ADADB5",
+			"__smartColor": "#9DD1FA",
 			"__bgPos": null,
 			"externalRelPath": null,
 			"fieldInstances": [],
@@ -695,13 +744,13 @@
 							"defUid": 8,
 							"px": [96,160],
 							"fieldInstances": [
-								{ "__identifier": "question", "__value": "How many days does every year have?", "__type": "String", "__tile": null, "defUid": 9, "realEditorValues": [{
+								{ "__identifier": "question", "__value": "I can fly,\nI can cry.\nWhat am I?", "__type": "String", "__tile": null, "defUid": 9, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["How many days does every year have?"]
+									"params": ["I can fly,\nI can cry.\nWhat am I?"]
 								}] },
-								{ "__identifier": "answer", "__value": "365", "__type": "String", "__tile": null, "defUid": 10, "realEditorValues": [{
+								{ "__identifier": "answer", "__value": "177", "__type": "String", "__tile": null, "defUid": 10, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["365"]
+									"params": ["177"]
 								}] },
 								{ "__identifier": "color", "__value": "BLUE", "__type": "LocalEnum.DoorColor", "__tile": { "tilesetUid": 12, "x": 384, "y": 320, "w": 64, "h": 64 }, "defUid": 13, "realEditorValues": [{
 									"id": "V_String",
@@ -726,13 +775,13 @@
 							"defUid": 8,
 							"px": [576,144],
 							"fieldInstances": [
-								{ "__identifier": "question", "__value": "What is the sum of the angles in a triangle?", "__type": "String", "__tile": null, "defUid": 9, "realEditorValues": [{
+								{ "__identifier": "question", "__value": "Silver, bronze and gold\nand the next level you unfold!", "__type": "String", "__tile": null, "defUid": 9, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["What is the sum of the angles in a triangle?"]
+									"params": ["Silver, bronze and gold\nand the next level you unfold!"]
 								}] },
-								{ "__identifier": "answer", "__value": "180", "__type": "String", "__tile": null, "defUid": 10, "realEditorValues": [{
+								{ "__identifier": "answer", "__value": "351", "__type": "String", "__tile": null, "defUid": 10, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["180"]
+									"params": ["351"]
 								}] },
 								{ "__identifier": "color", "__value": "YELLOW", "__type": "LocalEnum.DoorColor", "__tile": { "tilesetUid": 12, "x": 448, "y": 320, "w": 64, "h": 64 }, "defUid": 13, "realEditorValues": [{
 									"id": "V_String",
@@ -910,8 +959,169 @@
 							"defUid": 27,
 							"px": [304,240],
 							"fieldInstances": []
+						},
+						{
+							"__identifier": "TextSign",
+							"__grid": [11,3],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#E5F8FF",
+							"iid": "6ea8c9a0-9f30-11ed-9877-638b94fac28e",
+							"width": 16,
+							"height": 16,
+							"defUid": 23,
+							"px": [176,48],
+							"fieldInstances": [
+								{ "__identifier": "text", "__value": "1", "__type": "String", "__tile": null, "defUid": 24, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["1"]
+								}] },
+								{ "__identifier": "font_size", "__value": 12, "__type": "Float", "__tile": null, "defUid": 25, "realEditorValues": [{ "id": "V_Float", "params": [12] }] },
+								{ "__identifier": "color", "__value": "#E5F8FF", "__type": "Color", "__tile": null, "defUid": 26, "realEditorValues": [{ "id": "V_Int", "params": [15071487] }] }
+							]
+						},
+						{
+							"__identifier": "TextSign",
+							"__grid": [24,9],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#E5F8FF",
+							"iid": "85a270c0-9f30-11ed-9877-133e234d7e1b",
+							"width": 16,
+							"height": 16,
+							"defUid": 23,
+							"px": [384,144],
+							"fieldInstances": [
+								{ "__identifier": "text", "__value": "7", "__type": "String", "__tile": null, "defUid": 24, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["7"]
+								}] },
+								{ "__identifier": "font_size", "__value": 12, "__type": "Float", "__tile": null, "defUid": 25, "realEditorValues": [{ "id": "V_Float", "params": [12] }] },
+								{ "__identifier": "color", "__value": "#E5F8FF", "__type": "Color", "__tile": null, "defUid": 26, "realEditorValues": [{ "id": "V_Int", "params": [15071487] }] }
+							]
+						},
+						{
+							"__identifier": "TextSign",
+							"__grid": [33,4],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#E5F8FF",
+							"iid": "8ab43350-9f30-11ed-9877-f985d2610df8",
+							"width": 16,
+							"height": 16,
+							"defUid": 23,
+							"px": [528,64],
+							"fieldInstances": [
+								{ "__identifier": "text", "__value": "7", "__type": "String", "__tile": null, "defUid": 24, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["7"]
+								}] },
+								{ "__identifier": "font_size", "__value": 12, "__type": "Float", "__tile": null, "defUid": 25, "realEditorValues": [{ "id": "V_Float", "params": [12] }] },
+								{ "__identifier": "color", "__value": "#E5F8FF", "__type": "Color", "__tile": null, "defUid": 26, "realEditorValues": [{ "id": "V_Int", "params": [15071487] }] }
+							]
 						}
 					]
+				},
+				{
+					"__identifier": "Clouds",
+					"__type": "Tiles",
+					"__cWid": 46,
+					"__cHei": 24,
+					"__gridSize": 16,
+					"__opacity": 1,
+					"__pxTotalOffsetX": 0,
+					"__pxTotalOffsetY": 0,
+					"__tilesetDefUid": 30,
+					"__tilesetRelPath": "clues/clouds/clouds.png",
+					"iid": "3d4ddbd0-9f30-11ed-9877-1f20e360f6d6",
+					"levelId": 0,
+					"layerDefUid": 29,
+					"pxOffsetX": 0,
+					"pxOffsetY": 0,
+					"visible": true,
+					"optionalRules": [],
+					"intGridCsv": [],
+					"autoLayerTiles": [],
+					"seed": 645453,
+					"overrideTilesetUid": null,
+					"gridTiles": [
+						{ "px": [160,32], "src": [272,48], "f": 0, "t": 110, "d": [102] },
+						{ "px": [176,32], "src": [288,48], "f": 0, "t": 111, "d": [103] },
+						{ "px": [192,32], "src": [304,48], "f": 0, "t": 112, "d": [104] },
+						{ "px": [208,32], "src": [320,48], "f": 0, "t": 113, "d": [105] },
+						{ "px": [224,32], "src": [336,48], "f": 0, "t": 114, "d": [106] },
+						{ "px": [128,48], "src": [240,64], "f": 0, "t": 139, "d": [146] },
+						{ "px": [144,48], "src": [256,64], "f": 0, "t": 140, "d": [147] },
+						{ "px": [160,48], "src": [272,64], "f": 0, "t": 141, "d": [148] },
+						{ "px": [176,48], "src": [288,64], "f": 0, "t": 142, "d": [149] },
+						{ "px": [192,48], "src": [304,64], "f": 0, "t": 143, "d": [150] },
+						{ "px": [208,48], "src": [320,64], "f": 0, "t": 144, "d": [151] },
+						{ "px": [224,48], "src": [336,64], "f": 0, "t": 145, "d": [152] },
+						{ "px": [240,48], "src": [352,64], "f": 0, "t": 146, "d": [153] },
+						{ "px": [496,48], "src": [272,48], "f": 0, "t": 110, "d": [169] },
+						{ "px": [512,48], "src": [288,48], "f": 0, "t": 111, "d": [170] },
+						{ "px": [528,48], "src": [304,48], "f": 0, "t": 112, "d": [171] },
+						{ "px": [544,48], "src": [320,48], "f": 0, "t": 113, "d": [172] },
+						{ "px": [560,48], "src": [336,48], "f": 0, "t": 114, "d": [173] },
+						{ "px": [112,64], "src": [224,80], "f": 0, "t": 169, "d": [191] },
+						{ "px": [128,64], "src": [240,80], "f": 0, "t": 170, "d": [192] },
+						{ "px": [144,64], "src": [256,80], "f": 0, "t": 171, "d": [193] },
+						{ "px": [160,64], "src": [272,80], "f": 0, "t": 172, "d": [194] },
+						{ "px": [176,64], "src": [288,80], "f": 0, "t": 173, "d": [195] },
+						{ "px": [192,64], "src": [304,80], "f": 0, "t": 174, "d": [196] },
+						{ "px": [208,64], "src": [320,80], "f": 0, "t": 175, "d": [197] },
+						{ "px": [224,64], "src": [336,80], "f": 0, "t": 176, "d": [198] },
+						{ "px": [240,64], "src": [352,80], "f": 0, "t": 177, "d": [199] },
+						{ "px": [256,64], "src": [368,80], "f": 0, "t": 178, "d": [200] },
+						{ "px": [272,64], "src": [384,80], "f": 0, "t": 179, "d": [201] },
+						{ "px": [464,64], "src": [240,64], "f": 0, "t": 139, "d": [213] },
+						{ "px": [480,64], "src": [256,64], "f": 0, "t": 140, "d": [214] },
+						{ "px": [496,64], "src": [272,64], "f": 0, "t": 141, "d": [215] },
+						{ "px": [512,64], "src": [288,64], "f": 0, "t": 142, "d": [216] },
+						{ "px": [528,64], "src": [304,64], "f": 0, "t": 143, "d": [217] },
+						{ "px": [544,64], "src": [320,64], "f": 0, "t": 144, "d": [218] },
+						{ "px": [560,64], "src": [336,64], "f": 0, "t": 145, "d": [219] },
+						{ "px": [576,64], "src": [352,64], "f": 0, "t": 146, "d": [220] },
+						{ "px": [448,80], "src": [224,80], "f": 0, "t": 169, "d": [258] },
+						{ "px": [464,80], "src": [240,80], "f": 0, "t": 170, "d": [259] },
+						{ "px": [480,80], "src": [256,80], "f": 0, "t": 171, "d": [260] },
+						{ "px": [496,80], "src": [272,80], "f": 0, "t": 172, "d": [261] },
+						{ "px": [512,80], "src": [288,80], "f": 0, "t": 173, "d": [262] },
+						{ "px": [528,80], "src": [304,80], "f": 0, "t": 174, "d": [263] },
+						{ "px": [544,80], "src": [320,80], "f": 0, "t": 175, "d": [264] },
+						{ "px": [560,80], "src": [336,80], "f": 0, "t": 176, "d": [265] },
+						{ "px": [576,80], "src": [352,80], "f": 0, "t": 177, "d": [266] },
+						{ "px": [592,80], "src": [368,80], "f": 0, "t": 178, "d": [267] },
+						{ "px": [608,80], "src": [384,80], "f": 0, "t": 179, "d": [268] },
+						{ "px": [336,128], "src": [272,48], "f": 0, "t": 110, "d": [389] },
+						{ "px": [352,128], "src": [288,48], "f": 0, "t": 111, "d": [390] },
+						{ "px": [368,128], "src": [304,48], "f": 0, "t": 112, "d": [391] },
+						{ "px": [384,128], "src": [320,48], "f": 0, "t": 113, "d": [392] },
+						{ "px": [400,128], "src": [336,48], "f": 0, "t": 114, "d": [393] },
+						{ "px": [304,144], "src": [240,64], "f": 0, "t": 139, "d": [433] },
+						{ "px": [320,144], "src": [256,64], "f": 0, "t": 140, "d": [434] },
+						{ "px": [336,144], "src": [272,64], "f": 0, "t": 141, "d": [435] },
+						{ "px": [352,144], "src": [288,64], "f": 0, "t": 142, "d": [436] },
+						{ "px": [368,144], "src": [304,64], "f": 0, "t": 143, "d": [437] },
+						{ "px": [384,144], "src": [320,64], "f": 0, "t": 144, "d": [438] },
+						{ "px": [400,144], "src": [336,64], "f": 0, "t": 145, "d": [439] },
+						{ "px": [416,144], "src": [352,64], "f": 0, "t": 146, "d": [440] },
+						{ "px": [288,160], "src": [224,80], "f": 0, "t": 169, "d": [478] },
+						{ "px": [304,160], "src": [240,80], "f": 0, "t": 170, "d": [479] },
+						{ "px": [320,160], "src": [256,80], "f": 0, "t": 171, "d": [480] },
+						{ "px": [336,160], "src": [272,80], "f": 0, "t": 172, "d": [481] },
+						{ "px": [352,160], "src": [288,80], "f": 0, "t": 173, "d": [482] },
+						{ "px": [368,160], "src": [304,80], "f": 0, "t": 174, "d": [483] },
+						{ "px": [384,160], "src": [320,80], "f": 0, "t": 175, "d": [484] },
+						{ "px": [400,160], "src": [336,80], "f": 0, "t": 176, "d": [485] },
+						{ "px": [416,160], "src": [352,80], "f": 0, "t": 177, "d": [486] },
+						{ "px": [432,160], "src": [368,80], "f": 0, "t": 178, "d": [487] },
+						{ "px": [448,160], "src": [384,80], "f": 0, "t": 179, "d": [488] }
+					],
+					"entityInstances": []
 				},
 				{
 					"__identifier": "Tiles",
@@ -1127,14 +1337,14 @@
 			"worldDepth": 0,
 			"pxWid": 736,
 			"pxHei": 384,
-			"__bgColor": "#696A79",
-			"bgColor": null,
+			"__bgColor": "#4DABF6",
+			"bgColor": "#4DABF6",
 			"useAutoIdentifier": true,
 			"bgRelPath": null,
 			"bgPos": null,
 			"bgPivotX": 0.5,
 			"bgPivotY": 0.5,
-			"__smartColor": "#ADADB5",
+			"__smartColor": "#9DD1FA",
 			"__bgPos": null,
 			"externalRelPath": null,
 			"fieldInstances": [],
@@ -1255,6 +1465,31 @@
 							"fieldInstances": []
 						}
 					]
+				},
+				{
+					"__identifier": "Clouds",
+					"__type": "Tiles",
+					"__cWid": 46,
+					"__cHei": 24,
+					"__gridSize": 16,
+					"__opacity": 1,
+					"__pxTotalOffsetX": 0,
+					"__pxTotalOffsetY": 0,
+					"__tilesetDefUid": 30,
+					"__tilesetRelPath": "clues/clouds/clouds.png",
+					"iid": "3d4e5100-9f30-11ed-9877-d787c49ea04b",
+					"levelId": 18,
+					"layerDefUid": 29,
+					"pxOffsetX": 0,
+					"pxOffsetY": 0,
+					"visible": true,
+					"optionalRules": [],
+					"intGridCsv": [],
+					"autoLayerTiles": [],
+					"seed": 9431443,
+					"overrideTilesetUid": null,
+					"gridTiles": [],
+					"entityInstances": []
 				},
 				{
 					"__identifier": "Tiles",
