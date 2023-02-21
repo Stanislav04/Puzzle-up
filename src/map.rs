@@ -21,7 +21,7 @@ impl Plugin for MapPlugin {
             )
             .add_system_set(SystemSet::on_exit(GameState::LevelLoading).with_system(center_map))
             .register_ldtk_entity::<GroundTile>("Ground")
-            .register_ldtk_entity::<GroundTile>("LevelBorder")
+            .register_ldtk_entity::<LevelBorder>("LevelBorder")
             .register_ldtk_entity::<Door>("Door")
             .register_ldtk_entity::<BoxTile>("Box")
             .register_ldtk_entity::<TextSignBundle>("TextSign");
