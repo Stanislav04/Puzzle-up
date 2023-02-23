@@ -87,12 +87,13 @@ fn init_riddles_system(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     answered_riddles: Res<AnsweredRiddles>,
-    mut doors: Query<&mut RiddleInfo>,
+    mut doors: Query<(&mut RiddleInfo, &mut TextureAtlasSprite)>,
 ) {
     use nodes::*;
 
-    for mut door in doors.iter_mut() {
+    for (mut door, mut sprite) in doors.iter_mut() {
         if answered_riddles.contains(&door.question) {
+            sprite.index = 75;
             continue;
         }
         door.riddle = Some(
