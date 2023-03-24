@@ -21,10 +21,10 @@ impl Plugin for AnimationsPlugin {
 #[derive(Default, Eq, PartialEq, Hash)]
 pub enum AnimationType {
     #[default]
-    IDLE,
-    RUN,
-    JUMP,
-    FALL,
+    Idle,
+    Run,
+    Jump,
+    Fall,
 }
 
 #[derive(Default, Component)]
@@ -73,10 +73,10 @@ fn idle_animation_trigger_system(
     mut animation_info: Query<(Entity, &mut AnimationInfo, &Velocity), With<Player>>,
 ) {
     let (player, mut animation_info, velocity) = animation_info.single_mut();
-    if [AnimationType::IDLE, AnimationType::JUMP].contains(&animation_info.current_animation_type) {
+    if [AnimationType::Idle, AnimationType::Jump].contains(&animation_info.current_animation_type) {
         return;
     }
-    if velocity.linvel.x != 0.0 {
+    if !(-10.0..=10.0).contains(&velocity.linvel.x) {
         return;
     }
     for contact_pair in rapier_context.contacts_with(player) {
@@ -84,7 +84,7 @@ fn idle_animation_trigger_system(
             if manifold.normal().y == 0.0 {
                 continue;
             }
-            animation_info.set_animation(AnimationType::IDLE);
+            animation_info.set_animation(AnimationType::Idle);
             return;
         }
     }
@@ -95,10 +95,10 @@ fn run_animation_trigger_system(
     mut animation_info: Query<(Entity, &mut AnimationInfo, &Velocity), With<Player>>,
 ) {
     let (player, mut animation_info, velocity) = animation_info.single_mut();
-    if animation_info.current_animation_type == AnimationType::JUMP {
+    if animation_info.current_animation_type == AnimationType::Jump {
         return;
     }
-    if velocity.linvel.x == 0.0 {
+    if (-10.0..=10.0).contains(&velocity.linvel.x) {
         return;
     }
     for contact_pair in rapier_context.contacts_with(player) {
@@ -106,7 +106,7 @@ fn run_animation_trigger_system(
             if manifold.normal().y == 0.0 {
                 continue;
             }
-            animation_info.set_animation(AnimationType::RUN);
+            animation_info.set_animation(AnimationType::Run);
             return;
         }
     }
@@ -117,18 +117,18 @@ fn jump_animation_trigger_system(
     mut animation_info: Query<(&mut AnimationInfo, &Velocity), With<Player>>,
 ) {
     let (mut animation_info, velocity) = animation_info.single_mut();
-    if animation_info.current_animation_type == AnimationType::JUMP {
+    if animation_info.current_animation_type == AnimationType::Jump {
         return;
     }
     for event in events.iter() {
-        if let CollisionEvent::Stopped(_, _, flag) = event {
-            if !flag.is_empty() {
+        if let CollisionEvent::Stopped(_, _, flags) = event {
+            if !flags.is_empty() {
                 continue;
             }
-            if velocity.linvel.y < 0.0 {
+            if velocity.linvel.y < 10.0 {
                 continue;
             }
-            animation_info.set_animation(AnimationType::JUMP);
+            animation_info.set_animation(AnimationType::Jump);
             return;
         }
     }
@@ -139,10 +139,10 @@ fn fall_animation_trigger_system(
     mut animation_info: Query<(Entity, &mut AnimationInfo, &Velocity), With<Player>>,
 ) {
     let (player, mut animation_info, velocity) = animation_info.single_mut();
-    if animation_info.current_animation_type == AnimationType::FALL {
+    if animation_info.current_animation_type == AnimationType::Fall {
         return;
     }
-    if velocity.linvel.y > 0.0 {
+    if velocity.linvel.y > -10.0 {
         return;
     }
     for contact_pair in rapier_context.contacts_with(player) {
@@ -152,7 +152,7 @@ fn fall_animation_trigger_system(
             }
         }
     }
-    animation_info.set_animation(AnimationType::FALL);
+    animation_info.set_animation(AnimationType::Fall);
 }
 
 fn animate_player_system(

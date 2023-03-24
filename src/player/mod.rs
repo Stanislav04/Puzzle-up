@@ -58,15 +58,15 @@ impl From<EntityInstance> for ColliderBundle {
                 coefficient: 0.0,
                 combine_rule: CoefficientCombineRule::Min,
             },
-            active_events: ActiveEvents::COLLISION_EVENTS,
+            active_events: ActiveEvents::all(),
             animation_info: AnimationInfo::new(
                 HashMap::from_iter([
-                    (AnimationType::IDLE, vec![0]),
-                    (AnimationType::RUN, vec![9, 10]),
-                    (AnimationType::JUMP, vec![1]),
-                    (AnimationType::FALL, vec![2]),
+                    (AnimationType::Idle, vec![0]),
+                    (AnimationType::Run, vec![9, 10]),
+                    (AnimationType::Jump, vec![1]),
+                    (AnimationType::Fall, vec![2]),
                 ]),
-                AnimationType::IDLE,
+                AnimationType::Idle,
                 Timer::from_seconds(0.2, true),
             ),
         }

@@ -1,8 +1,11 @@
 use crate::riddles::RiddleInfo;
 use crate::GameState;
-use bevy::{prelude::*, text::Text2dBounds, utils::HashMap};
+use bevy::prelude::*;
 use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
+use text::*;
+
+mod text;
 
 pub struct MapPlugin;
 
@@ -10,6 +13,7 @@ impl Plugin for MapPlugin {
     fn build(&self, app: &mut App) {
         app.add_startup_system(map_setup_system)
             .insert_resource(CurrentLevel::from(STARTING_LEVEL))
+            .add_startup_system(zone_text_setup_system)
             .add_system_set(
                 SystemSet::on_enter(GameState::LevelLoading).with_system(level_loading_system),
             )
@@ -17,14 +21,21 @@ impl Plugin for MapPlugin {
                 SystemSet::on_update(GameState::LevelLoading).with_system(level_loaded_system),
             )
             .add_system_set(
-                SystemSet::on_exit(GameState::LevelLoading).with_system(normalize_font_system),
+                SystemSet::on_exit(GameState::LevelLoading)
+                    .with_system(normalize_font_system)
+                    .with_system(center_map),
             )
-            .add_system_set(SystemSet::on_exit(GameState::LevelLoading).with_system(center_map))
+            .add_system_set(
+                SystemSet::on_update(GameState::MapExploring)
+                    .with_system(show_zone_text_system)
+                    .with_system(hide_zone_text_system),
+            )
             .register_ldtk_entity::<GroundTile>("Ground")
             .register_ldtk_entity::<LevelBorder>("LevelBorder")
             .register_ldtk_entity::<Door>("Door")
             .register_ldtk_entity::<BoxTile>("Box")
-            .register_ldtk_entity::<TextSignBundle>("TextSign");
+            .register_ldtk_entity::<TextSignBundle>("TextSign")
+            .register_ldtk_entity::<ZoneTextBundle>("ZoneText");
     }
 }
 
@@ -120,7 +131,7 @@ struct ColliderBundle {
 impl From<EntityInstance> for ColliderBundle {
     fn from(entity_instance: EntityInstance) -> Self {
         match entity_instance.identifier.as_ref() {
-            "Ground" | "LevelBorder" => Self {
+            "Ground" | "LevelBorder" | "ZoneText" => Self {
                 collider: Collider::cuboid(SMALL_TILE_SIZE / 2.0, SMALL_TILE_SIZE / 2.0),
                 rigid_body: RigidBody::Fixed,
             },
@@ -130,82 +141,5 @@ impl From<EntityInstance> for ColliderBundle {
             },
             _ => Self::default(),
         }
-    }
-}
-
-#[derive(Default, Component)]
-struct StaticText;
-
-#[derive(LdtkEntity, Bundle)]
-struct TextSignBundle {
-    #[from_entity_instance]
-    #[bundle]
-    text_sign: TextSign,
-    static_text: StaticText,
-}
-
-#[derive(Bundle)]
-struct TextSign {
-    #[bundle]
-    text_2d_bundle: Text2dBundle,
-}
-
-impl From<EntityInstance> for TextSign {
-    fn from(entity_instance: EntityInstance) -> Self {
-        let fields = HashMap::from_iter(entity_instance.field_instances.iter().map(|field| {
-            (
-                field.identifier.clone(),
-                match field.value.clone() {
-                    FieldValue::String(Some(value)) => value,
-                    FieldValue::Float(Some(value)) => value.to_string(),
-                    _ => "".to_string(),
-                },
-            )
-        }));
-        Self {
-            text_2d_bundle: Text2dBundle {
-                text: Text::from_section(
-                    fields
-                        .get("text")
-                        .expect("Text is expected for a text sign!"),
-                    TextStyle {
-                        font_size: fields
-                            .get("font_size")
-                            .expect("The font size of the text is expected!")
-                            .parse()
-                            .expect("Font size is expected to be a number!"),
-                        color: entity_instance
-                            .field_instances
-                            .iter()
-                            .find(|field| field.identifier == "color")
-                            .map(|field| {
-                                if let FieldValue::Color(color) = field.value.clone() {
-                                    color
-                                } else {
-                                    Color::default()
-                                }
-                            })
-                            .expect("Default color is expected to be set by the editor!"),
-                        ..Default::default()
-                    },
-                )
-                .with_alignment(TextAlignment::CENTER),
-                text_2d_bounds: Text2dBounds {
-                    size: Vec2::new(entity_instance.width as f32, entity_instance.height as f32),
-                },
-                ..Default::default()
-            },
-        }
-    }
-}
-
-fn normalize_font_system(
-    asset_server: Res<AssetServer>,
-    mut text_query: Query<(&mut Text, &mut Transform), With<StaticText>>,
-) {
-    for (mut text, mut transform) in text_query.iter_mut() {
-        text.sections[0].style.font =
-            asset_server.load("fonts/MontserratAlternates-MediumItalic.ttf");
-        transform.scale = Vec3::new(1.0, 1.0, 1.0);
     }
 }
