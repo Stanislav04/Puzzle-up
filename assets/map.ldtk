@@ -2718,6 +2718,26 @@
 							"defUid": 27,
 							"px": [32,176],
 							"fieldInstances": []
+						},
+						{
+							"__identifier": "ZoneText",
+							"__grid": [20,18],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#F4732E",
+							"iid": "0488caf0-c640-11ed-aeff-e533d81a17ec",
+							"width": 80,
+							"height": 64,
+							"defUid": 35,
+							"px": [320,288],
+							"fieldInstances": [
+								{ "__identifier": "text", "__value": "I never forget to say \"UNO\"!", "__type": "String", "__tile": null, "defUid": 36, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["I never forget to say \"UNO\"!"]
+								}] },
+								{ "__identifier": "font_size", "__value": 20, "__type": "Float", "__tile": null, "defUid": 37, "realEditorValues": [] }
+							]
 						}
 					]
 				},

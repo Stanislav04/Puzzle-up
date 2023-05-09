@@ -59,8 +59,8 @@ impl From<EntityInstance> for RiddleInfo {
         let fields = HashMap::from_iter(entity_instance.field_instances.iter().map(|field| {
             (
                 field.identifier.clone(),
-                match field.value.clone() {
-                    FieldValue::String(Some(value)) => value,
+                match &field.value {
+                    FieldValue::String(Some(value)) => value.clone(),
                     _ => "".to_string(),
                 },
             )
@@ -69,15 +69,15 @@ impl From<EntityInstance> for RiddleInfo {
             question: fields
                 .get("question")
                 .expect("A question is required for a riddle!")
-                .clone(),
+                .into(),
             answer: fields
                 .get("answer")
                 .expect("An answer is required for a riddle!")
-                .clone(),
+                .into(),
             next_level: fields
                 .get("next_level")
                 .expect("A next level is required for a riddle!")
-                .clone(),
+                .into(),
             ..Default::default()
         }
     }
