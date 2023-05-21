@@ -18,6 +18,12 @@ enum GameState {
 
 fn main() {
     App::new()
+        .insert_resource(WindowDescriptor {
+            title: "Puzzle Up".to_string(),
+            resizable: false,
+            cursor_visible: false,
+            ..Default::default()
+        })
         .add_plugins(DefaultPlugins)
         .add_state(GameState::LevelLoading)
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::default())
