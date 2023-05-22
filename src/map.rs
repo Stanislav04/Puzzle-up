@@ -39,7 +39,7 @@ impl Plugin for MapPlugin {
     }
 }
 
-const STARTING_LEVEL: &str = "6c6ef290-5110-11ed-90f2-ab2793fe3460";
+const STARTING_LEVEL: &str = "27e654c0-ed50-11ed-9ee3-a3abea3fe6ae";
 const SMALL_TILE_SIZE: f32 = 16.0;
 const LARGE_TILE_SIZE: f32 = 64.0;
 
