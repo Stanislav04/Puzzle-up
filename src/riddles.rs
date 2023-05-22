@@ -23,7 +23,7 @@ impl Plugin for RiddlesPlugin {
                 SystemSet::on_update(GameState::RiddleSolving)
                     .with_system(answering_riddle_system)
                     .with_system(delete_digit_system)
-                    .with_system(correct_answer_system)
+                    .with_system(correct_answer_system.chain(clear_input_system))
                     .with_system(close_riddle_system),
             );
     }
@@ -246,6 +246,36 @@ fn correct_answer_system(
         door.active = false;
         state.set(GameState::MapExploring).unwrap();
     }
+}
+
+fn clear_input_system(
+    keyboard_input: Res<Input<KeyCode>>,
+    mut container_info: Query<(&mut AnswerContainer, &ComputedVisibility)>,
+    mut answer_nodes: Query<(&mut Text, &ComputedVisibility), With<Answer>>,
+) {
+    if !keyboard_input.any_just_pressed([KeyCode::Return, KeyCode::NumpadEnter]) {
+        return;
+    }
+    if answer_nodes
+        .iter_mut()
+        .filter(|(_, visibility)| visibility.is_visible())
+        .find(|(text, _)| text.sections[0].value == "_".to_string())
+        .is_some()
+    {
+        return;
+    }
+    if let Some((mut container, _)) = container_info
+        .iter_mut()
+        .find(|(_, visibility)| visibility.is_visible())
+    {
+        container.index = 0;
+    }
+    answer_nodes
+        .iter_mut()
+        .filter(|(_, visibility)| visibility.is_visible())
+        .for_each(|(mut text, _)| {
+            text.sections[0].value = "_".to_string();
+        });
 }
 
 fn close_riddle_system(
